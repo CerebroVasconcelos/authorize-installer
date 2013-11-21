@@ -1,0 +1,104 @@
+<?php
+$form->prepare();
+?>
+
+<div class="container">
+    <div class="page-header">
+        <h1>Welcome to Zf-Hipsters Authorize Installer</h1>
+    </div>
+    <h4>Installation Progress</h4>
+    <div class="progress progress-striped">
+        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">
+            <span class="sr-only">75% Complete (success)</span>
+        </div>
+    </div>
+    <p class="lead">Step 3 - Configure Email</p>
+    <p>Please click the install button below to get started.</p>
+
+    <form role="form" method="post" action="<?=$this->url('authorize_install', array('action'=>'email'))?>">
+        <fieldset>
+            <legend>Default Sender Details</legend>
+            <div class="form-group<?php if ($this->formElementErrors($form->get('from'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('from')->setAttribute('class', 'form-control col-xs-4'))?>
+            </div>
+            <br/>
+        </fieldset>
+
+        <fieldset>
+            <legend>Mail Transport</legend>
+            <div class="form-group<?php if ($this->formElementErrors($form->get('transport'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('transport')->setAttribute('class', 'form-control col-xs-4'))?>
+            </div>
+            <br/>
+        </fieldset>
+
+        <fieldset class="smtp">
+            <legend>Transport Options</legend>
+            <div class="form-group<?php if ($this->formElementErrors($form->get('options_connection_class'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('options_connection_class')->setAttribute('class', 'form-control col-xs-4'))?>
+            </div>
+            <div class="form-group<?php if ($this->formElementErrors($form->get('options_connection_config_host'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('options_connection_config_host')->setAttribute('class', 'form-control col-xs-4'))?>
+            </div>
+            <div class="form-group<?php if ($this->formElementErrors($form->get('options_connection_config_username'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('options_connection_config_username')->setAttribute('class', 'form-control col-xs-4'))?>
+            </div>
+            <div class="form-group<?php if ($this->formElementErrors($form->get('options_connection_config_password'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('options_connection_config_password')->setAttribute('class', 'form-control col-xs-4'))?>
+            </div>
+            <div class="form-group<?php if ($this->formElementErrors($form->get('options_connection_config_ssl'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('options_connection_config_ssl')->setAttribute('class', 'form-control col-xs-4'))?>
+            </div>
+            <div class="form-group<?php if ($this->formElementErrors($form->get('options_connection_config_port'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('options_connection_config_port')->setAttribute('class', 'form-control col-xs-4'))?>
+            </div>
+            <br/>
+        </fieldset>
+
+        <input type="submit" name="btnSubmit" class="btn btn-success" value="Next Step">
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select[name=transport]').on('change', function() {
+            if ($(this).val() == 'sendmail') {
+                $('.smtp').hide();
+                $('input[name=options_connection_config_host]').val('');
+                $('select[name=options_connection_class]').val('plain');
+                $('select[name=options_connection_config_ssl]').val('');
+                $('select[name=options_connection_config_ssl]').change();
+            }
+
+            else if ($(this).val() == 'gmail') {
+                $('input[name=options_connection_config_host]').val('smtp.gmail.com');
+                $('select[name=options_connection_class]').val('plain');
+                $('select[name=options_connection_config_ssl]').val('tls');
+                $('select[name=options_connection_config_ssl]').change();
+                $('.smtp').show();
+            }
+
+            else {
+                $('input[name=options_connection_config_host]').val('');
+                $('select[name=options_connection_class]').val('plain');
+                $('select[name=options_connection_config_ssl]').val('');
+                $('select[name=options_connection_config_ssl]').change();
+                $('.smtp').show();
+            }
+        });
+
+        $('select[name=options_connection_config_ssl]').on('change', function() {
+            if ($(this).val() == 'tls') {
+                $('input[name=options_connection_config_port]').val('587');
+            }
+
+            else if ($(this).val() == 'ssl') {
+                $('input[name=options_connection_config_port]').val('465');
+            }
+
+            else {
+                $('input[name=options_connection_config_port]').val('25');
+            }
+        });
+    });
+</script>

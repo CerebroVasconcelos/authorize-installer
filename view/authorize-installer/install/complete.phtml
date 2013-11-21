@@ -1,0 +1,78 @@
+<div class="container">
+
+    <div class="page-header">
+        <h1>Welcome to Zf-Hipsters Authorize Installer</h1>
+    </div>
+    <h4>Installation Progress</h4>
+    <div class="progress progress-striped">
+        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+            <span class="sr-only">100% Complete (success)</span>
+        </div>
+    </div>
+    <p class="lead">Step 4 - You're almost done!</p>
+
+    <h4>Load the required modules</h4>
+
+    <p>Open up <?= getcwd() ?><?= DIRECTORY_SEPARATOR ?>config<?= DIRECTORY_SEPARATOR ?>application.config.php and add
+        the following lines into the <strong>modules</strong> section at the top</strong>
+        <br/>Once these are loaded, you can add your other modules below.</p>
+<pre>
+'ZfcRbac',
+'ZfhAbstractFactory',
+'AssetManager',
+'FlashMessenger',
+'Authorize',
+'Application',
+</pre>
+    <br/>
+
+    <p><h4>Run the following sql code in your shiny new *users* table.</h4></p>
+    <p>Note: Be smart with this, if you already have a users table with 50,000 users, please don't run this sql. You've
+        been warned.</p>
+    <pre>
+DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(128) DEFAULT NULL,
+  `last_name` varchar(128) DEFAULT NULL,
+  `email` varchar(128) DEFAULT NULL,
+  `password` varchar(128) DEFAULT NULL,
+  `role` varchar(128) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `reset_token` varchar(256) DEFAULT NULL,
+  `created` timestamp NULL DEFAULT NULL,
+  `modified` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+</pre>
+    <br/>
+
+    <p><h4>Delete this module!</h4></p>
+    <p>Open up <?= getcwd() ?><?= DIRECTORY_SEPARATOR ?>composer.json</strong>
+
+    <p>Now make sure we're loading the actual module</p>
+<pre>
+"zf-hipsters/authorize-installer": "dev-master"
+</pre>
+    replace with
+<pre>
+"zf-hipsters/authorize": "dev-master"
+</pre>
+    <br/>
+
+    <h4>Configuring RBAC (ACL)</h4>
+
+    <p><strong>To configure RBAC for your site, just open up <?= getcwd() ?><?= DIRECTORY_SEPARATOR ?>config<?= DIRECTORY_SEPARATOR ?>autoload<?= DIRECTORY_SEPARATOR ?>rbac.global.php and edit the firewall routes.</strong></p>
+
+    <p>For full details please visit the ZfcRbac page on <a href="https://github.com/ZF-Commons/ZfcRbac">Github</a></p>
+
+    <p>From your command line, run </p>
+<pre>
+php composer.phar update
+</pre>
+
+    <h3>Congratulations you're done!</h3>
+    <br/>
+    <a href="<?= $this->url('home') ?>" class="btn btn-success">Complete Installation</a>
+</div>

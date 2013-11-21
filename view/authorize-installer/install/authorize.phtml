@@ -1,0 +1,64 @@
+<?php
+$form->prepare();
+?>
+
+<div class="container">
+    <div class="page-header">
+        <h1>Welcome to Zf-Hipsters Authorize Installer</h1>
+    </div>
+    <h4>Installation Progress</h4>
+    <div class="progress progress-striped">
+        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+            <span class="sr-only">50% Complete (success)</span>
+        </div>
+    </div>
+    <p class="lead">Step 2 - Configure Authorize</p>
+    <p>Please click the install button below to get started.</p>
+
+    <form role="form" method="post" action="<?=$this->url('authorize_install', array('action'=>'authorize'))?>">
+        <fieldset>
+            <legend>Database Configuration</legend>
+                <div class="form-group<?php if ($this->formElementErrors($form->get('user_table'))):?> has-error<?php endif?>">
+                    <?=$this->formRow($form->get('user_table')->setAttribute('class', 'form-control col-xs-4'))?>
+                    <span class="help-block">Please ensure the table has been created. You will be given the MySql code to populate this table on the final step.</span>
+                </div>
+            <br/>
+        </fieldset>
+
+        <fieldset>
+            <legend>Permissions</legend>
+            <?php $this->formRadio()->setSeparator('</div><div class="radio-inline">');?>
+
+            <?php foreach ($permissions as $permission):?>
+            <div class="form-group<?php if ($this->formElementErrors($form->get('permissions_' . $permission))):?> has-error<?php endif?>">
+                <div><?=$this->formLabel($form->get('permissions_' . $permission));?></div>
+                <div class="radio-inline">
+                    <?=$this->formRadio($form->get('permissions_' . $permission));?>
+                </div>
+            </div>
+            <?php endforeach;?>
+            <br/>
+        </fieldset>
+
+        <fieldset>
+            <legend>Redirections</legend>
+            <div class="form-group<?php if ($this->formElementErrors($form->get('redirects_login_success'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('redirects_login_success')->setAttribute('class', 'form-control col-xs-4'))?>
+            </div>
+            <div class="form-group<?php if ($this->formElementErrors($form->get('redirects_logout'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('redirects_logout')->setAttribute('class', 'form-control col-xs-4'))?>
+            </div>
+            <br/>
+        </fieldset>
+
+        <fieldset>
+            <legend>Security</legend>
+            <div class="form-group<?php if ($this->formElementErrors($form->get('salt'))):?> has-error<?php endif?>">
+                <?=$this->formRow($form->get('salt')->setAttribute('class', 'form-control col-xs-4'))?>
+            </div>
+            <br/>
+        </fieldset>
+
+        <input type="submit" name="btnSubmit" class="btn btn-success" value="Next Step">
+    </form>
+</div>

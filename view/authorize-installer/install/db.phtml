@@ -1,0 +1,29 @@
+<?php
+$form->prepare();
+?>
+
+<div class="container">
+    <div class="page-header">
+        <h1>Welcome to Zf-Hipsters Authorize Installer</h1>
+    </div>
+    <h4>Installation Progress</h4>
+    <div class="progress progress-striped">
+        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%">
+            <span class="sr-only">25% Complete (success)</span>
+        </div>
+    </div>
+    <p class="lead">Step 1 - Configure Mysql Database</p>
+    <p>Please click the install button below to get started.</p>
+
+    <form role="form" method="post" action="<?=$this->url('authorize_install', array('action'=>'db'))?>">
+        <fieldset>
+            <?php foreach ($form as $element):?>
+                <div class="form-group<?php if ($this->formElementErrors($element)):?> has-error<?php endif?>">
+                    <?=$this->formRow($element->setAttribute('class', 'form-control col-xs-4'))?>
+                </div>
+            <?php endforeach;?>
+        </fieldset>
+
+        <input type="submit" name="btnSubmit" class="btn btn-success" value="Next Step">
+    </form>
+</div>
